@@ -1,0 +1,10 @@
+# Private / working files — not published
+media/
+BUILD-PLAN.md
+.agents/
+.claude/
+skills-lock.json
+_*.html
+*.jfif
+Thumbs.db
+desktop.ini
