@@ -510,3 +510,14 @@ section { position: relative; }
 .key { width: 10px; height: 10px; border-radius: 3px; display: inline-block; }
 .key--base { background: var(--ink-3); opacity: .45; }
 .key--tuned { background: var(--sage); }
+
+/* --- Keep words whole (split-letter animation must never wrap mid-word) */
+.w-mask, .w { white-space: nowrap; }
+.hero__title { font-size: clamp(56px, 10.2vw, 184px); }
+@media (min-width: 901px) and (max-width: 1180px) {
+  .hero__inner { grid-template-columns: minmax(0, 1.4fr) minmax(0, .6fr); }
+  .hero__title { font-size: clamp(56px, 9.2vw, 120px); }
+}
+@media (max-width: 900px) {
+  .hero__title { font-size: clamp(52px, 16vw, 132px); }
+}
