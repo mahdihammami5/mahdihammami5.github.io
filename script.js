@@ -344,7 +344,7 @@
 
     tl.to('.hero__frame', { clipPath: 'inset(0% 0% 0% 0% round 999px 999px 28px 28px)', duration: 1.3, ease: 'expo.out' }, '-=0.35')
       .to('.hero__frame img', { scale: 1, duration: 1.6, ease: 'expo.out' }, '<')
-      .to('.hero__title .c', { yPercent: 0, duration: 1.1, ease: 'expo.out', stagger: 0.035 }, '<0.1')
+      .to('.hero__title .c', { yPercent: 0, duration: 1.1, ease: 'expo.out', stagger: 0.035, onComplete: () => $('.hero__title').classList.add('is-revealed') }, '<0.1')
       .to('[data-hero-fade]', { opacity: 1, y: 0, duration: 0.9, ease: 'power3.out', stagger: 0.1 }, '<0.35')
       .to(['.hero__readout', '.hero__scroll', '.hero__portrait figcaption'], { opacity: 1, duration: 0.8 }, '<0.3');
   }
@@ -407,6 +407,7 @@
     if (ctaChars.length) {
       gsap.from(ctaChars, {
         yPercent: 115, rotate: 6, duration: 1.1, ease: 'expo.out', stagger: 0.018,
+        onComplete: () => $('.cta__title').classList.add('is-revealed'),
         scrollTrigger: { trigger: '.cta__title', start: 'top 82%', once: true },
       });
     }

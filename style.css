@@ -527,3 +527,7 @@ section { position: relative; }
 .hero__portrait { width: min(100%, 340px); }
 @media (min-width: 901px) and (max-width: 1180px) { .hero__portrait { width: min(100%, 280px); } }
 @media (max-width: 900px) { .hero__portrait { width: min(38vw, 170px); } }
+
+/* --- Room for italic overhang & the dot of "i" in masked words ------- */
+.w-mask { padding: .14em .14em .08em 0; margin: -.14em -.14em -.08em 0; }
+.hero__title.is-revealed .w-mask, .cta__title.is-revealed .w-mask { overflow: visible; }
