@@ -79,6 +79,22 @@
   }
   $$('[data-split]').forEach(splitText);
 
+  /* ---------- Fit the hero name to its column (never wraps) ------------ */
+  function fitHeroTitle() {
+    const title = $('.hero__title');
+    if (!title) return;
+    title.style.fontSize = '';
+    const avail = title.parentElement.clientWidth;
+    const widest = Math.max(...$$('.hero__line', title).map((l) => l.scrollWidth));
+    if (avail > 0 && widest > avail) {
+      const size = parseFloat(getComputedStyle(title).fontSize);
+      title.style.fontSize = Math.floor(size * (avail / widest) * 0.97) + 'px';
+    }
+  }
+  fitHeroTitle();
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(fitHeroTitle);
+  let fitT; window.addEventListener('resize', () => { clearTimeout(fitT); fitT = setTimeout(fitHeroTitle, 100); });
+
   /* ---------- SVG motifs ------------------------------------------------- */
   function buildMotifs() {
     $$('svg[data-motif]').forEach((svg) => {
