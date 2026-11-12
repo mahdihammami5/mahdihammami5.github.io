@@ -522,3 +522,8 @@ section { position: relative; }
   .hero__title { font-size: clamp(52px, 16vw, 132px); }
 }
 .hero__line { white-space: nowrap; }
+
+/* --- Smaller hero portrait ------------------------------------------- */
+.hero__portrait { width: min(100%, 340px); }
+@media (min-width: 901px) and (max-width: 1180px) { .hero__portrait { width: min(100%, 280px); } }
+@media (max-width: 900px) { .hero__portrait { width: min(38vw, 170px); } }
