@@ -827,3 +827,21 @@ section { position: relative; }
 @media (max-width: 375px) {
   .nav__links a { padding: 9px 7px; font-size: 12px; }
 }
+
+/* Education tab additions */
+.xcard--wide { grid-column: 1 / -1; min-height: 280px; }
+.xcard--wide .xcard__motif { width: 30%; }
+@media (max-width: 900px) {
+  .nav__links a[href="index.html"] { display: none; }
+}
+
+/* Never let the page overflow on small phones */
+.footer__links { flex-wrap: wrap; gap: 10px 20px; }
+@media (max-width: 900px) {
+  .nav__links { overflow-x: auto; min-width: 0; }
+  .nav__right .btn { flex: none; }
+}
+@media (max-width: 375px) {
+  .nav__links a { padding: 9px 7px; font-size: 12px; }
+  .nav__brand-text { font-size: 15px; }
+}

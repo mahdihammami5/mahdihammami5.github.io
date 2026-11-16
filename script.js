@@ -172,6 +172,11 @@
       if (type === 'mini-steps') {
         svgPath(svg, `M0 ${H - 6} H${W * 0.22} V${H * 0.66} H${W * 0.46} V${H * 0.4} H${W * 0.7} V${H * 0.16} H${W}`);
       }
+      if (type === 'mini-curve') {
+        const pts = []; for (let k = 0; k <= 100; k++) { const x = k / 100; pts.push([x * W, H - 6 - (H - 14) * Math.pow(x, 2.2)]); }
+        svgPath(svg, toPath(pts));
+        svgPath(svg, `M0 ${H - 6} H${W}`);
+      }
       if (type === 'mini-wave') {
         const pts = []; for (let k = 0; k <= 120; k++) { const x = k / 120; pts.push([x * W, H / 2 + Math.sin(x * 6.283 * 2.2) * H * 0.32 * (1 - x * 0.5)]); }
         svgPath(svg, toPath(pts));
@@ -702,6 +707,15 @@
     window.addEventListener('pageshow', () => { if (fade) fade.classList.remove('is-on'); });
 
     initFilters();
+
+    // phones: if the tab row scrolls, bring the current tab into view
+    const tabs = $('.nav__links'); const cur = $('.nav__links a.is-current');
+    const showCurrentTab = () => {
+      if (tabs && cur && tabs.scrollWidth > tabs.clientWidth) tabs.scrollLeft = Math.max(0, cur.offsetLeft - (tabs.clientWidth - cur.offsetWidth) / 2);
+    };
+    showCurrentTab();
+    window.addEventListener('load', showCurrentTab);
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(showCurrentTab);
 
     // anchor links
     $$('a[href^="#"]').forEach((a) => {
