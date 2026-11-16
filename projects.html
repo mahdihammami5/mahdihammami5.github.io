@@ -1,0 +1,320 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Projects — Mahdi Hammami</title>
+  <meta name="description" content="Projects with methods and results: S&P 500 portfolio benchmarks, LLM fine-tuning for financial sentiment, wearable-signal health AI, time-series classification and more.">
+  <meta name="theme-color" content="#F4F1EA">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Projects — Mahdi Hammami">
+  <meta property="og:description" content="Projects with methods and results: S&P 500 portfolio benchmarks, LLM fine-tuning for financial sentiment, wearable-signal health AI, time-series classification and more.">
+  <meta property="og:image" content="assets/img/portrait.jpg">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..600;1,9..144,300..600&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css?v=6">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    "name": "Mahdi Hammami",
+    "jobTitle": "Ph.D. Student, Graduate Research & Teaching Assistant",
+    "affiliation": { "@type": "CollegeOrUniversity", "name": "University of Louisville" },
+    "alumniOf": ["University of Louisville", "Tunisia Polytechnic School"],
+    "email": "mailto:mahdi.hammami@louisville.edu",
+    "url": "https://mahdihammami5.github.io/",
+    "sameAs": ["https://www.linkedin.com/in/mahdi-hammami-73b303229/", "https://github.com/mahdihammami5"],
+    "knowsAbout": ["Deep Learning", "Time-Series Classification", "AI for Health", "AI in Finance", "Signal Processing", "Optimization"]
+  }
+  </script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" defer></script>
+  <script src="https://unpkg.com/lenis@1.1.13/dist/lenis.min.js" defer></script>
+  <script src="script.js?v=6" defer></script>
+</head>
+<body class="is-loading" data-page="projects">
+  <a class="skip" href="#main">Skip to content</a>
+
+  <div class="grain" aria-hidden="true"></div>
+  <div class="page-fade" aria-hidden="true"></div>
+  <div class="cursor" aria-hidden="true"><span class="cursor__dot"></span><span class="cursor__ring"><em class="cursor__label"></em></span></div>
+
+  <!-- Navigation -->
+  <header class="nav" data-nav>
+    <a class="nav__brand" href="index.html" aria-label="Mahdi Hammami — home">
+      <span class="nav__mono">MH</span>
+      <span class="nav__brand-text">Mahdi Hammami</span>
+    </a>
+    <nav class="nav__links" id="site-menu" aria-label="Primary">
+      <a href="index.html">Home</a>
+      <a href="research.html">Research</a>
+      <a href="projects.html" class="is-current" aria-current="page">Projects</a>
+      <a href="experience.html">Experience</a>
+      <a href="about.html">About</a>
+      <a href="#contact">Contact</a>
+    </nav>
+    <div class="nav__right">
+      <a class="btn btn--small btn--ink" href="assets/cv/Mahdi_Hammami_CV.pdf" download data-magnetic><span>CV</span><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 2v9m0 0L4.5 7.5M8 11l3.5-3.5M3 14h10"/></svg></a>
+      <button class="nav__toggle" type="button" aria-expanded="false" aria-controls="site-menu" aria-label="Open menu"><span></span></button>
+    </div>
+    <div class="nav__progress" aria-hidden="true"><span></span></div>
+  </header>
+
+  <main id="main">
+
+    <header class="page-hero">
+      <p class="eyebrow" data-hero-fade>Projects</p>
+      <h1 class="page-hero__title" data-split="chars">Projects &amp; <em>results</em>.</h1>
+      <svg class="page-hero__line" viewBox="0 0 1200 48" preserveAspectRatio="none" aria-hidden="true"><path d="M0 24 L640 24 L664 24 L676 12 L688 24 L708 24 L718 36 L732 4 L746 44 L758 24 L790 24 L1200 24"/></svg>
+      <p class="page-hero__lead" data-hero-fade>Methods, numbers and code — from wearable sensors and plasma experiments to the S&amp;P 500.</p>
+    </header>
+
+    <section class="block" id="all" aria-label="All projects">
+      <div class="filters" role="toolbar" aria-label="Filter projects" data-reveal>
+        <button type="button" class="is-active" data-filter="all">All</button>
+        <button type="button" data-filter="timeseries">Time-series</button>
+        <button type="button" data-filter="health">Health</button>
+        <button type="button" data-filter="finance">Finance</button>
+        <button type="button" data-filter="llm">LLMs</button>
+        <button type="button" data-filter="optimization">Optimization</button>
+        <button type="button" data-filter="physics">Physics</button>
+        <button type="button" data-filter="vision">Vision</button>
+        <p class="filters__count mono" data-count-label></p>
+      </div>
+
+      <div class="plist">
+
+        <article class="pcard" data-tags="finance optimization timeseries" data-reveal>
+          <div class="pcard__side">
+            <div class="pcard__viz" aria-hidden="true"><svg viewBox="0 0 400 180" data-motif="bundle"></svg></div>
+            <div class="pcard__metrics">
+              <div><b>0.82</b><span>Best out-of-sample Sharpe (GA)</span></div>
+              <div><b>0.64</b><span>S&amp;P 500 (SPY) benchmark</span></div>
+              <div><b>16 yrs</b><span>Point-in-time S&amp;P 500 data</span></div>
+              <div><b>20</b><span>Strategies benchmarked</span></div>
+            </div>
+          </div>
+          <div class="pcard__main">
+            <p class="pcard__tag mono">Finance · Optimization · Deep learning</p>
+            <h2 class="pcard__title">Classic vs AI Portfolios on the S&amp;P 500</h2>
+            <p class="pcard__body">A leakage-free, walk-forward benchmark that runs classic portfolio theory, evolutionary optimization, end-to-end deep learning and a time-series foundation model through one backtester — with transaction costs and statistical testing.</p>
+            <p class="pcard__h">Approach</p>
+            <ul class="pcard__list">
+              <li>Point-in-time S&amp;P 500 membership, monthly rebalancing, transaction costs</li>
+              <li>Classic baselines: equal weight, Markowitz mean-variance, minimum variance, risk parity</li>
+              <li>Genetic algorithm, plus a Wisdom-of-Crowds ensemble</li>
+              <li>End-to-end portfolio network (attention-LSTM + Transformer) trained on a Sharpe–CVaR loss</li>
+              <li>Amazon Chronos-2 forecasts, zero-shot and LoRA fine-tuned</li>
+              <li>Significance tested with the Deflated Sharpe Ratio and block-bootstrap confidence intervals</li>
+            </ul>
+            <p class="pcard__h">Test-period results</p>
+            <div class="table-wrap"><table class="table">
+              <thead><tr><th>Strategy</th><th class="num">CAGR</th><th class="num">Sharpe</th><th class="num">Max DD</th></tr></thead>
+              <tbody>
+                <tr class="hl"><td>Genetic algorithm</td><td class="num">18.9%</td><td class="num">0.82</td><td class="num">−30.5%</td></tr>
+                <tr><td>GA + Wisdom of Crowds</td><td class="num">18.1%</td><td class="num">0.79</td><td class="num">−30.5%</td></tr>
+                <tr><td>Mean-variance</td><td class="num">18.6%</td><td class="num">0.69</td><td class="num">−29.3%</td></tr>
+                <tr><td>SPY (benchmark)</td><td class="num">14.7%</td><td class="num">0.64</td><td class="num">−33.7%</td></tr>
+                <tr><td>Equal weight</td><td class="num">15.1%</td><td class="num">0.63</td><td class="num">−34.6%</td></tr>
+                <tr><td>Risk parity</td><td class="num">13.2%</td><td class="num">0.61</td><td class="num">−33.0%</td></tr>
+                <tr><td>Minimum variance</td><td class="num">9.9%</td><td class="num">0.51</td><td class="num">−27.9%</td></tr>
+              </tbody>
+            </table></div>
+            <ul class="chips"><li>PyTorch</li><li>Chronos-2 + LoRA</li><li>cvxpy</li><li>Streamlit</li><li>pytest · CI</li></ul>
+            <div class="project__links"><a class="link" href="https://classic-vs-ai-portfolios.streamlit.app/" target="_blank" rel="noopener">Live dashboard ↗</a><a class="link" href="https://github.com/mahdihammami5/classic-vs-ai-portfolios" target="_blank" rel="noopener">GitHub ↗</a></div>
+          </div>
+        </article>
+
+        <article class="pcard" data-tags="llm finance" data-reveal>
+          <div class="pcard__side">
+            <div class="pcard__viz project__viz--legend" aria-hidden="true"><svg viewBox="0 0 400 180" data-motif="bars"></svg><p class="project__legend mono"><span><i class="key key--base"></i>Zero-shot</span><span><i class="key key--tuned"></i>Fine-tuned</span><span>Macro-F1</span></p></div>
+            <div class="pcard__metrics">
+              <div><b>0.58 → 0.88</b><span>Macro-F1, in-domain</span></div>
+              <div><b>0.28%</b><span>Of parameters trained</span></div>
+              <div><b>−55%</b><span>Memory with QLoRA</span></div>
+              <div><b>104k</b><span>Tweets backtested</span></div>
+            </div>
+          </div>
+          <div class="pcard__main">
+            <p class="pcard__tag mono">LLMs · Finance · NLP</p>
+            <h2 class="pcard__title">Fine-Tuning Small LLMs for Financial Sentiment</h2>
+            <p class="pcard__body">Parameter-efficient fine-tuning of Qwen2.5 (0.5B &amp; 1.5B) for financial sentiment, then a look-ahead-free evaluation of the signal on real market data.</p>
+            <p class="pcard__h">Approach</p>
+            <ul class="pcard__list">
+              <li>LoRA and QLoRA (4-bit NF4) adapters — only <strong>0.28%</strong> of parameters trained</li>
+              <li>Trained on Twitter Financial News Sentiment; tested out-of-domain on Financial PhraseBank</li>
+              <li>QLoRA cuts memory by <strong>55%</strong> while staying within 0.7 F1 points of LoRA</li>
+              <li>Look-ahead-free backtest on StockNet: 104k tweets, 87 stocks — sentiment tracks same-day returns (IC +0.073, t = 9.1)</li>
+            </ul>
+            <p class="pcard__h">Macro-F1</p>
+            <div class="table-wrap"><table class="table">
+              <thead><tr><th>Model</th><th class="num">In-domain</th><th class="num">Out-of-domain</th></tr></thead>
+              <tbody>
+                <tr class="hl"><td>Qwen2.5-1.5B · QLoRA</td><td class="num">0.882</td><td class="num">0.739</td></tr>
+                <tr><td>Qwen2.5-0.5B · LoRA</td><td class="num">0.878</td><td class="num">0.715</td></tr>
+                <tr><td>Qwen2.5-0.5B · QLoRA</td><td class="num">0.871</td><td class="num">0.711</td></tr>
+                <tr><td>Qwen2.5-1.5B · zero-shot</td><td class="num">0.576</td><td class="num">0.688</td></tr>
+                <tr><td>Qwen2.5-0.5B · zero-shot</td><td class="num">0.504</td><td class="num">0.615</td></tr>
+              </tbody>
+            </table></div>
+            <ul class="chips"><li>Qwen2.5</li><li>LoRA / QLoRA</li><li>Hugging Face PEFT</li><li>PyTorch</li><li>49 tests</li></ul>
+            <div class="project__links"><a class="link" href="https://github.com/mahdihammami5/LLM-sentiment-trading-signals" target="_blank" rel="noopener">GitHub ↗</a></div>
+          </div>
+        </article>
+
+        <article class="pcard" data-tags="health timeseries" data-reveal>
+          <div class="pcard__side">
+            <div class="pcard__viz pcard__viz--dark" aria-hidden="true"><svg viewBox="0 0 420 300" data-motif="paper"></svg></div>
+            <div class="pcard__metrics">
+              <div><b>30 days</b><span>Longitudinal monitoring</span></div>
+              <div><b>67+ h</b><span>Physiological recordings</span></div>
+              <div><b>−29%</b><span>Error, optimized LSTM</span></div>
+              <div><b>0.0989</b><span>MAE, personalized</span></div>
+            </div>
+          </div>
+          <div class="pcard__main">
+            <p class="pcard__tag mono">Health · Time-series · IEEE AICCONF 2026</p>
+            <h2 class="pcard__title">Predicting Feelings in Eating Disorders from Wearable Signals</h2>
+            <p class="pcard__body">First-author research: predicting anxiety, tiredness and fear of weight gain from Empatica E4 signals in individuals with atypical anorexia nervosa — toward real-time, personalized monitoring.</p>
+            <p class="pcard__h">Approach</p>
+            <ul class="pcard__list">
+              <li>7 signals at 4 Hz (HR, EDA, BVP, temperature, 3-axis motion), aligned with self-reports</li>
+              <li>Baseline normalization per participant to remove individual differences</li>
+              <li>Multisampling augmentation: 320 → <strong>25,600</strong> training sequences</li>
+              <li>XGBoost vs LSTM, then participant-specific fine-tuning</li>
+            </ul>
+            <ul class="chips"><li>LSTM</li><li>XGBoost</li><li>Wearables</li><li>Personalization</li></ul>
+            <div class="project__links"><a class="link" href="https://ieeexplore.ieee.org/abstract/document/11600712" target="_blank" rel="noopener">IEEE Xplore ↗</a><a class="link" href="research.html#publication">Results on the Research page →</a></div>
+          </div>
+        </article>
+
+        <article class="pcard" data-tags="timeseries" data-reveal>
+          <div class="pcard__side">
+            <div class="pcard__viz pcard__viz--dark" aria-hidden="true"><svg viewBox="0 0 400 160" data-motif="channels"></svg></div>
+          </div>
+          <div class="pcard__main">
+            <p class="pcard__tag mono">Time-series · Deep learning · Research</p>
+            <h2 class="pcard__title">Multivariate Time-Series Classification</h2>
+            <p class="pcard__body">A state-of-the-art classifier for multivariate time-series that reaches top results on public benchmarks.</p>
+            <p class="pcard__h">Approach</p>
+            <ul class="pcard__list">
+              <li>Signals represented in both the time and frequency domains</li>
+              <li>Graph-based models to capture structure between channels</li>
+              <li>LSTM and convolutional blocks combined through attention-based fusion</li>
+            </ul>
+            <ul class="chips"><li>Time &amp; frequency domain</li><li>Graph models</li><li>LSTM · CNN</li><li>Attention</li></ul>
+          </div>
+        </article>
+
+        <article class="pcard" data-tags="optimization" data-reveal>
+          <div class="pcard__side">
+            <figure class="photo"><picture><source srcset="assets/img/award-minister.webp" type="image/webp"><img src="assets/img/award-minister.jpg" width="1024" height="681" loading="lazy" decoding="async" alt="The winning team on stage at Tunisia Digital Summit 2023"></picture></figure>
+          </div>
+          <div class="pcard__main">
+            <p class="pcard__tag mono">Optimization · Energy · Industry · 2023</p>
+            <h2 class="pcard__title">AI &amp; Optimization for Electric-Vehicle Integration</h2>
+            <p class="pcard__body">With three engineers from <strong>Safran</strong>, built a model based on AI and optimization to integrate electric vehicles in Tunisia.</p>
+            <ul class="pcard__list">
+              <li>National trophy from the Tunisian Minister of Technology at Tunisia Digital Summit 2023</li>
+              <li>Combined machine learning with mathematical optimization for planning</li>
+            </ul>
+            <ul class="chips"><li>Optimization</li><li>Machine learning</li><li>Industry collaboration</li></ul>
+          </div>
+        </article>
+
+        <article class="pcard" data-tags="physics timeseries" data-reveal>
+          <div class="pcard__side">
+            <figure class="photo"><picture><source srcset="assets/img/mpfus-2023.webp" type="image/webp"><img src="assets/img/mpfus-2023.jpg" width="1024" height="768" loading="lazy" decoding="async" alt="Mahdi with his certificate at the MENA Plasma and Fusion Physics School 2023, CNSTN"></picture></figure>
+          </div>
+          <div class="pcard__main">
+            <p class="pcard__tag mono">Physics · Machine learning · MPFuS 2023</p>
+            <h2 class="pcard__title">Predicting Material Phases from Plasma Experiments</h2>
+            <p class="pcard__body">At the one-week MENA Plasma and Fusion Physics School (CNSTN, with nuclear research partners from France, China and Switzerland), we ran hands-on plasma experiments and trained models on our own measurements to predict material phases for experiments we had not run.</p>
+            <ul class="chips"><li>Plasma physics</li><li>Chemistry</li><li>Machine learning</li></ul>
+          </div>
+        </article>
+
+        <article class="pcard" data-tags="vision" data-reveal>
+          <div class="pcard__main">
+            <p class="pcard__tag mono">Vision · Remote sensing · CNRS × DLR · 2023</p>
+            <h2 class="pcard__title">3D Point-Cloud Reconstruction from Satellite Imagery</h2>
+            <p class="pcard__body">As a Data Engineer intern at the Digital Research Centre of Sfax (CNRS), in collaboration with the German Aerospace Center (DLR), I simulated satellite data and built deep learning models that improve 3D point-cloud reconstruction from 2D imagery.</p>
+            <ul class="chips"><li>Deep learning</li><li>3D reconstruction</li><li>Simulation</li></ul>
+          </div>
+        </article>
+
+        <article class="pcard" data-tags="optimization finance" data-reveal>
+          <div class="pcard__main">
+            <p class="pcard__tag mono">Optimization · Finance</p>
+            <h2 class="pcard__title">Genetic Algorithm Portfolio Optimization</h2>
+            <p class="pcard__body">A large-scale genetic-algorithm framework that finds optimal asset allocations across S&amp;P 500 companies from 5 years of daily data, maximizing risk-adjusted return under realistic investment constraints.</p>
+            <ul class="chips"><li>Genetic algorithms</li><li>Constraints</li><li>Risk-adjusted return</li></ul>
+          </div>
+        </article>
+
+        <article class="pcard" data-tags="finance" data-reveal>
+          <div class="pcard__main">
+            <p class="pcard__tag mono">Machine learning · Competition</p>
+            <h2 class="pcard__title">Loan Default Prediction — Top 7% on Zindi</h2>
+            <p class="pcard__body">Engineered features from customer and lender data and optimized XGBoost / LightGBM ensembles, ranking in the <strong>top 7%</strong> of 1,000 participants.</p>
+            <ul class="chips"><li>Feature engineering</li><li>XGBoost</li><li>LightGBM</li></ul>
+          </div>
+        </article>
+
+        <article class="pcard" data-tags="vision" data-reveal>
+          <div class="pcard__main">
+            <p class="pcard__tag mono">Computer vision</p>
+            <h2 class="pcard__title">RGB &amp; Infrared Object Recognition</h2>
+            <p class="pcard__body">Built and fine-tuned VGG and autoencoder architectures for object recognition across RGB and infrared imagery.</p>
+            <ul class="chips"><li>VGG</li><li>Autoencoders</li><li>Transfer learning</li></ul>
+          </div>
+        </article>
+
+      </div>
+    </section>
+
+    <!-- 08 FINAL CTA -->
+    <section class="cta" id="contact" aria-labelledby="cta-title">
+      <p class="eyebrow eyebrow--light" data-reveal>Contact</p>
+      <h2 class="cta__title" id="cta-title" data-split="chars">Let's build something <em>trustworthy</em>.</h2>
+      <svg class="cta__line" viewBox="0 0 1200 60" aria-hidden="true"><path d="M0 30 L480 30 L510 30 L525 16 L540 30 L565 30 L578 46 L594 4 L610 56 L624 30 L660 30 L1200 30"/></svg>
+      <p class="cta__sub" data-reveal>Open to research collaborations, internships, and conversations about time-series, health AI, and finance.</p>
+
+      <div class="cta__email" data-reveal>
+        <a href="mailto:mahdi.hammami@louisville.edu" class="cta__mail">mahdi.hammami@louisville.edu</a>
+        <button class="cta__copy mono" type="button" data-copy="mahdi.hammami@louisville.edu">Copy</button>
+      </div>
+
+      <div class="cta__buttons" data-reveal>
+        <a class="btn btn--light" href="mailto:mahdi.hammami@louisville.edu" data-magnetic><span>Email</span></a>
+        <a class="btn btn--outline-light" href="https://www.linkedin.com/in/mahdi-hammami-73b303229/" target="_blank" rel="noopener" data-magnetic><span>LinkedIn ↗</span></a>
+        <a class="btn btn--outline-light" href="https://github.com/mahdihammami5" target="_blank" rel="noopener" data-magnetic><span>GitHub ↗</span></a>
+        <a class="btn btn--outline-light" href="assets/cv/Mahdi_Hammami_CV.pdf" download data-magnetic><span>Download CV</span></a>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <svg class="footer__line" viewBox="0 0 1200 40" preserveAspectRatio="none" aria-hidden="true"><path d="M0 20 L1200 20"/></svg>
+    <div class="footer__row">
+      <p>© <span data-year>2026</span> Mahdi Hammami · Louisville, KY, USA</p>
+      <nav class="footer__links" aria-label="Footer">
+        <a href="research.html">Research</a><a href="projects.html">Projects</a><a href="experience.html">Experience</a><a href="about.html">About</a>
+      </nav>
+      <a href="#main" class="footer__top mono">Back to top ↑</a>
+    </div>
+  </footer>
+
+  <!-- Mobile sticky bar -->
+  <div class="mbar" aria-label="Quick contact">
+    <a href="mailto:mahdi.hammami@louisville.edu">Email</a>
+    <a href="assets/cv/Mahdi_Hammami_CV.pdf" download>CV</a>
+  </div>
+
+  <div class="toast mono" role="status" aria-live="polite"></div>
+</body>
+</html>

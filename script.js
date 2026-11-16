@@ -161,6 +161,22 @@
         });
       }
 
+      // small decorative motifs for the home "explore" cards (stroke set in CSS)
+      if (type === 'mini-heart') {
+        const pts = []; for (let k = 0; k <= 200; k++) pts.push([(k / 200) * W, H * 0.6 - ecg(((k / 200) * 2) % 1) * H * 0.5]);
+        svgPath(svg, toPath(pts));
+      }
+      if (type === 'mini-price') {
+        const w = randomWalk(60, 77, 0.05, 0.9); svgPath(svg, toPath(w.map((v, k) => [(k / 59) * W, H - 6 - v * (H - 12)])));
+      }
+      if (type === 'mini-steps') {
+        svgPath(svg, `M0 ${H - 6} H${W * 0.22} V${H * 0.66} H${W * 0.46} V${H * 0.4} H${W * 0.7} V${H * 0.16} H${W}`);
+      }
+      if (type === 'mini-wave') {
+        const pts = []; for (let k = 0; k <= 120; k++) { const x = k / 120; pts.push([x * W, H / 2 + Math.sin(x * 6.283 * 2.2) * H * 0.32 * (1 - x * 0.5)]); }
+        svgPath(svg, toPath(pts));
+      }
+
       if (type === 'bars') {
         const pairs = [[0.273, 0.871], [0.504, 0.878], [0.576, 0.882]];
         const gw = W / pairs.length;
@@ -323,17 +339,28 @@
   }
 
   /* initial states */
-  gsap.set('.hero__title .c', { yPercent: 115 });
-  gsap.set('[data-hero-fade]', { opacity: 0, y: 24 });
-  gsap.set('.hero__frame', { clipPath: 'inset(100% 0% 0% 0% round 999px 999px 28px 28px)' });
-  gsap.set('.hero__frame img', { scale: 1.25 });
-  gsap.set(['.hero__readout', '.hero__scroll', '.hero__portrait figcaption'], { opacity: 0 });
+  const isHome = !!$('.hero');
+  const pageHero = $('.page-hero');
+  const setIf = (sel, vars) => { if ($$(sel).length) gsap.set(sel, vars); };
+  setIf('[data-hero-fade]', { opacity: 0, y: 24 });
+  if (isHome) {
+    setIf('.hero__title .c', { yPercent: 115 });
+    setIf('.hero__frame', { clipPath: 'inset(100% 0% 0% 0% round 999px 999px 28px 28px)' });
+    setIf('.hero__frame img', { scale: 1.25 });
+    setIf('.hero__readout, .hero__scroll, .hero__portrait figcaption', { opacity: 0 });
+  }
+  if (pageHero) setIf('.page-hero__title .c', { yPercent: 115 });
+
+  // The full preloader plays only on the first visit of a session
+  let seen = false;
+  try { seen = sessionStorage.getItem('mh-intro') === '1'; sessionStorage.setItem('mh-intro', '1'); } catch (e) { /* storage blocked */ }
 
   /* ---------- Preloader → hero intro ----------------------------------- */
   function intro() {
     const tl = gsap.timeline();
     const path = $('.loader__line path');
-    if (loader && path) {
+    if (!isHome) { introPage(tl); return; }
+    if (loader && path && !seen) {
       loader.style.animation = 'none';
       const len = path.getTotalLength();
       gsap.set(path, { strokeDasharray: len, strokeDashoffset: len });
@@ -349,8 +376,30 @@
       .to(['.hero__readout', '.hero__scroll', '.hero__portrait figcaption'], { opacity: 1, duration: 0.8 }, '<0.3');
   }
 
+  // Sub-page header intro
+  function introPage(tl) {
+    endLoading(); if (lenis) lenis.start();
+    const line = $('.page-hero__line path');
+    if (line) {
+      const len = line.getTotalLength();
+      gsap.set(line, { strokeDasharray: len, strokeDashoffset: len });
+    }
+    tl.to('.page-hero__title .c', {
+      yPercent: 0, duration: 1.1, ease: 'expo.out', stagger: 0.025, delay: 0.1,
+      onComplete: () => { const t = $('.page-hero__title'); if (t) t.classList.add('is-revealed'); },
+    })
+      .to('[data-hero-fade]', { opacity: 1, y: 0, duration: 0.9, ease: 'power3.out', stagger: 0.1 }, '<0.3');
+    if (line) tl.to(line, { strokeDashoffset: 0, duration: 1.6, ease: 'power2.inOut' }, '<');
+    // arriving with a #hash from another page
+    if (location.hash && lenis) {
+      const target = $(location.hash);
+      if (target) setTimeout(() => { ScrollTrigger.refresh(); lenis.scrollTo(target, { offset: -20, duration: 1.4 }); }, 700);
+    }
+  }
+
   /* ---------- Hero scroll (pinned, drives signal morph) ---------------- */
   function initHero() {
+    if (!isHome) return;
     const readout = $('[data-readout]');
     const phases = ['CH 01–07 · RAW PHYSIOLOGICAL SIGNALS', 'HEART RATE · LIVE · 72 BPM', 'S&P 500 · WALK-FORWARD · 2020–2026'];
     let phase = 0;
@@ -502,7 +551,7 @@
 
   /* ---------- Work motifs ---------------------------------------------- */
   function initWorkMotifs() {
-    $$('.pub__viz svg, .project__viz svg').forEach((svg) => {
+    $$('.pub__viz svg, .project__viz svg, .pcard__viz svg, .xcard__motif, .results__chart svg').forEach((svg) => {
       const tw = drawTween(svg);
       ScrollTrigger.create({ trigger: svg, start: 'top 85%', once: true, onEnter: () => tw && tw.play() });
     });
@@ -542,15 +591,32 @@
       });
     });
 
-    const links = $$('.nav__links a');
-    links.forEach((a) => {
-      const sec = $(a.getAttribute('href'));
-      if (!sec) return;
-      ScrollTrigger.create({
-        trigger: sec, start: 'top 50%', end: 'bottom 50%',
-        onToggle: (self) => { if (self.isActive) { links.forEach((l) => l.classList.remove('is-active')); a.classList.add('is-active'); } else a.classList.remove('is-active'); },
+  }
+
+  /* ---------- Projects filter ------------------------------------------- */
+  function initFilters() {
+    const bar = $('.filters');
+    if (!bar) return;
+    const cards = $$('.pcard[data-tags]');
+    const label = $('[data-count-label]');
+    const apply = (f) => {
+      let n = 0;
+      cards.forEach((c) => {
+        const show = f === 'all' || c.dataset.tags.split(' ').includes(f);
+        c.classList.toggle('is-hidden', !show);
+        if (show) n++;
       });
-    });
+      if (label) label.textContent = `${n} project${n === 1 ? '' : 's'}`;
+      if (hasGSAP) {
+        gsap.fromTo(cards.filter((c) => !c.classList.contains('is-hidden')), { opacity: 0, y: 24 }, { opacity: 1, y: 0, duration: 0.6, ease: 'power3.out', stagger: 0.06, overwrite: true });
+        ScrollTrigger.refresh();
+      }
+    };
+    $$('button[data-filter]', bar).forEach((b) => b.addEventListener('click', () => {
+      $$('button[data-filter]', bar).forEach((x) => x.classList.toggle('is-active', x === b));
+      apply(b.dataset.filter);
+    }));
+    if (label) label.textContent = `${cards.length} projects`;
   }
 
   /* ---------- Cursor, magnetic, tilt ----------------------------------- */
@@ -608,6 +674,37 @@
 
   /* ---------- Common (works without GSAP too) -------------------------- */
   function initCommon(lenisInstance) {
+    // mobile menu
+    const toggle = $('.nav__toggle');
+    const setMenu = (open) => {
+      document.body.classList.toggle('menu-open', open);
+      document.documentElement.classList.toggle('menu-open', open);
+      if (toggle) { toggle.setAttribute('aria-expanded', String(open)); toggle.setAttribute('aria-label', open ? 'Close menu' : 'Open menu'); }
+      if (lenisInstance) { if (open) lenisInstance.stop(); else lenisInstance.start(); }
+    };
+    if (toggle) toggle.addEventListener('click', () => setMenu(!document.body.classList.contains('menu-open')));
+    document.addEventListener('keydown', (e) => { if (e.key === 'Escape') setMenu(false); });
+
+    // page transitions between .html pages
+    const fade = $('.page-fade');
+    $$('a[href]').forEach((a) => {
+      const href = a.getAttribute('href');
+      if (!href || href.startsWith('#') || href.startsWith('mailto:') || a.target === '_blank' || a.hasAttribute('download')) return;
+      if (!/\.html(#.*)?$/.test(href)) return;
+      a.addEventListener('click', (e) => {
+        if (e.metaKey || e.ctrlKey || e.shiftKey || e.button !== 0) return;
+        const url = new URL(href, location.href);
+        if (url.pathname === location.pathname && url.hash) return; // same page anchor
+        e.preventDefault();
+        setMenu(false);
+        if (fade && !reduced) { fade.classList.add('is-on'); setTimeout(() => { location.href = url.href; }, 320); }
+        else location.href = url.href;
+      });
+    });
+    window.addEventListener('pageshow', () => { if (fade) fade.classList.remove('is-on'); });
+
+    initFilters();
+
     // anchor links
     $$('a[href^="#"]').forEach((a) => {
       a.addEventListener('click', (e) => {
@@ -615,6 +712,7 @@
         const target = id.length > 1 ? $(id) : null;
         if (!target) return;
         e.preventDefault();
+        setMenu(false);
         if (lenisInstance) lenisInstance.scrollTo(target, { offset: 0, duration: 1.6 });
         else target.scrollIntoView({ behavior: reduced ? 'auto' : 'smooth' });
       });
