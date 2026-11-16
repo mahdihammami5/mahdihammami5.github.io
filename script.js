@@ -625,33 +625,7 @@
   /* ---------- Cursor, magnetic, tilt ----------------------------------- */
   function initPointer() {
     if (!finePointer) return;
-    document.documentElement.classList.add('has-cursor');
-    const cursor = $('.cursor');
-    const dot = $('.cursor__dot');
-    const ring = $('.cursor__ring');
-    const label = $('.cursor__label');
-    const pos = { x: innerWidth / 2, y: innerHeight / 2 };
-    const ringPos = { ...pos };
-    window.addEventListener('pointermove', (e) => {
-      pos.x = e.clientX; pos.y = e.clientY;
-      dot.style.transform = `translate(${pos.x}px, ${pos.y}px)`;
-    }, { passive: true });
-    gsap.ticker.add(() => {
-      ringPos.x += (pos.x - ringPos.x) * 0.18;
-      ringPos.y += (pos.y - ringPos.y) * 0.18;
-      ring.style.transform = `translate(${ringPos.x}px, ${ringPos.y}px)`;
-    });
-    document.addEventListener('pointerover', (e) => {
-      const t = e.target;
-      const lab = t.closest('[data-cursor]');
-      const isLink = t.closest('a, button');
-      cursor.classList.toggle('is-label', !!lab && !t.closest('.btn'));
-      cursor.classList.toggle('is-link', !!isLink && !lab);
-      label.textContent = lab ? lab.dataset.cursor : '';
-      cursor.classList.toggle('on-dark', !!t.closest('.pillars, .pub, .cta, .footer'));
-    });
-    document.addEventListener('pointerleave', () => { cursor.style.opacity = 0; });
-    document.addEventListener('pointerenter', () => { cursor.style.opacity = 1; });
+    // The native system cursor is kept (custom cursor removed for responsiveness).
 
     $$('[data-magnetic]').forEach((el) => {
       const xTo = gsap.quickTo(el, 'x', { duration: 0.5, ease: 'power3.out' });

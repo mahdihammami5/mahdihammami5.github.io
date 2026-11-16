@@ -845,3 +845,30 @@ section { position: relative; }
   .nav__links a { padding: 9px 7px; font-size: 12px; }
   .nav__brand-text { font-size: 15px; }
 }
+
+/* ==========================================================================
+   v10 — native cursor, lighter grain, calmer heading sizes
+   ========================================================================== */
+.cursor { display: none !important; }
+.has-cursor, .has-cursor a, .has-cursor button { cursor: auto; }
+.grain { animation: none; inset: 0; opacity: .035; }
+
+.hero__title { font-size: clamp(50px, 7.4vw, 128px); }
+.page-hero__title { font-size: clamp(42px, 5.8vw, 100px); max-width: 18ch; }
+.section-title { font-size: clamp(34px, 4.4vw, 72px); }
+.block__title { font-size: clamp(30px, 3.4vw, 54px); }
+.mission__text { font-size: clamp(26px, 3.4vw, 54px); max-width: 26ch; }
+.cta__title { font-size: clamp(38px, 5.8vw, 100px); max-width: 16ch; }
+.stat__value { font-size: clamp(44px, 5vw, 80px); }
+.xcard__title { font-size: clamp(26px, 2.5vw, 40px); }
+.tl__title { font-size: clamp(24px, 2.4vw, 36px); }
+.pillar__title { font-size: clamp(24px, 2.2vw, 34px); }
+.pub__title { font-size: clamp(26px, 2.6vw, 42px); }
+.card__big { font-size: clamp(44px, 4.4vw, 68px); }
+@media (min-width: 901px) and (max-width: 1180px) {
+  .hero__title { font-size: clamp(50px, 7vw, 100px); }
+}
+@media (max-width: 900px) {
+  .hero__title { font-size: clamp(46px, 13vw, 96px); }
+  .page-hero__title { font-size: clamp(38px, 10.5vw, 72px); }
+}
