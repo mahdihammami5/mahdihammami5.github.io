@@ -896,3 +896,16 @@ section { position: relative; }
 
 /* v12 — one size for every section heading across all pages */
 .section-title, .block__title { font-size: clamp(28px, 2.8vw, 44px); line-height: 1.05; letter-spacing: -.03em; }
+
+/* ==========================================================================
+   v13 — calm scrolling: research areas as a normal grid (no pin / sideways)
+   ========================================================================== */
+.pillars__pin { min-height: 0; padding: clamp(72px, 10vh, 120px) 0; gap: clamp(32px, 5vh, 56px); }
+.pillars__track {
+  display: grid; grid-template-columns: repeat(3, minmax(0, 1fr));
+  width: auto; max-width: calc(var(--maxw) + var(--gutter) * 2); margin: 0 auto; transform: none !important;
+}
+.pillar { width: auto; }
+@media (max-width: 1000px) {
+  .pillars__track { grid-template-columns: 1fr; }
+}

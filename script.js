@@ -334,14 +334,8 @@
   gsap.registerPlugin(ScrollTrigger);
   ScrollTrigger.config({ ignoreMobileResize: true });
 
-  let lenis = null;
-  if (window.Lenis) {
-    lenis = new Lenis({ lerp: 0.09, smoothWheel: true, syncTouch: false });
-    lenis.on('scroll', ScrollTrigger.update);
-    gsap.ticker.add((time) => lenis.raf(time * 1000));
-    gsap.ticker.lagSmoothing(0);
-    lenis.stop();
-  }
+  // Native scrolling (no smooth-scroll layer): the page always moves instantly.
+  const lenis = null;
 
   /* initial states */
   const isHome = !!$('.hero');
@@ -396,81 +390,64 @@
       .to('[data-hero-fade]', { opacity: 1, y: 0, duration: 0.9, ease: 'power3.out', stagger: 0.1 }, '<0.3');
     if (line) tl.to(line, { strokeDashoffset: 0, duration: 1.6, ease: 'power2.inOut' }, '<');
     // arriving with a #hash from another page
-    if (location.hash && lenis) {
+    if (location.hash) {
       const target = $(location.hash);
-      if (target) setTimeout(() => { ScrollTrigger.refresh(); lenis.scrollTo(target, { offset: -20, duration: 1.4 }); }, 700);
+      if (target) setTimeout(() => { ScrollTrigger.refresh(); target.scrollIntoView({ behavior: 'smooth', block: 'start' }); }, 500);
     }
   }
 
-  /* ---------- Hero scroll (pinned, drives signal morph) ---------------- */
+  /* ---------- Hero signal loop (independent of scrolling) -------------- */
+  // Signals -> heartbeat -> market chart -> back, as a slow ambient loop.
+  // Nothing is pinned and the photo never zooms, so scrolling stays natural.
   function initHero() {
-    if (!isHome) return;
+    if (!isHome || !field) return;
     const readout = $('[data-readout]');
     const phases = ['CH 01–07 · RAW PHYSIOLOGICAL SIGNALS', 'HEART RATE · LIVE · 72 BPM', 'S&P 500 · WALK-FORWARD · 2020–2026'];
     let phase = 0;
-    const mm = gsap.matchMedia();
-    mm.add({ desktop: '(min-width: 901px)', mobile: '(max-width: 900px)' }, (ctx) => {
-      const { desktop } = ctx.conditions;
-      const tl = gsap.timeline({
-        scrollTrigger: {
-          trigger: '.hero', start: 'top top', end: desktop ? '+=170%' : '+=110%',
-          pin: true, scrub: 0.6, anticipatePin: 1,
-          onUpdate: (self) => {
-            if (field) field.target = self.progress;
-            const ph = self.progress < 0.33 ? 0 : self.progress < 0.68 ? 1 : 2;
-            if (ph !== phase && readout) {
-              phase = ph;
-              gsap.to(readout, { opacity: 0, duration: 0.15, onComplete: () => { readout.textContent = phases[ph]; gsap.to(readout, { opacity: 1, duration: 0.3 }); } });
-            }
-          },
-        },
-      });
-      tl.to('.hero__frame img', { scale: 1.1, ease: 'none' }, 0)
-        .to('.hero__portrait', { yPercent: desktop ? -8 : -4, ease: 'none' }, 0)
-        .to('.hero__copy', { yPercent: desktop ? -10 : -4, ease: 'none' }, 0)
-        .to('.hero__scroll', { opacity: 0, duration: 0.15 }, 0);
-    });
+    const st = { p: 0 };
+    const update = () => {
+      field.target = st.p;
+      const ph = st.p < 0.3 ? 0 : st.p < 0.72 ? 1 : 2;
+      if (ph !== phase && readout) {
+        phase = ph;
+        gsap.to(readout, { opacity: 0, duration: 0.2, onComplete: () => { readout.textContent = phases[ph]; gsap.to(readout, { opacity: 1, duration: 0.4 }); } });
+      }
+    };
+    gsap.timeline({ repeat: -1, delay: 2.5, onUpdate: update })
+      .to(st, { p: 0, duration: 4 })
+      .to(st, { p: 0.5, duration: 2.2, ease: 'power2.inOut' })
+      .to(st, { p: 0.5, duration: 4.5 })
+      .to(st, { p: 1, duration: 2.2, ease: 'power2.inOut' })
+      .to(st, { p: 1, duration: 4.5 })
+      .to(st, { p: 0, duration: 2.6, ease: 'power2.inOut' });
   }
 
   /* ---------- Reveals ---------------------------------------------------- */
   function initReveals() {
-    gsap.set('[data-reveal]', { opacity: 0, y: 40 });
+    // Calm, quick fade-ups (nothing is tied to the scroll position)
+    gsap.set('[data-reveal]', { opacity: 0, y: 14 });
     ScrollTrigger.batch('[data-reveal]', {
-      start: 'top 88%', once: true,
-      onEnter: (els) => gsap.to(els, { opacity: 1, y: 0, duration: 1.1, ease: 'power3.out', stagger: 0.1, overwrite: true }),
+      start: 'top 92%', once: true,
+      onEnter: (els) => gsap.to(els, { opacity: 1, y: 0, duration: 0.6, ease: 'power2.out', stagger: 0.05, overwrite: true }),
     });
 
-    // word-mask headings (not hero/cta/mission)
+    // section headings: a short, simple fade
     $$('[data-split="words"]:not([data-scrub-words])').forEach((el) => {
-      gsap.from($$('.w', el), {
-        yPercent: 110, duration: 1.1, ease: 'expo.out', stagger: 0.06,
-        scrollTrigger: { trigger: el, start: 'top 85%', once: true },
-      });
+      gsap.from(el, { opacity: 0, y: 12, duration: 0.6, ease: 'power2.out', scrollTrigger: { trigger: el, start: 'top 92%', once: true } });
     });
 
-    // mission — words light up while scrolling
-    $$('[data-scrub-words]').forEach((el) => {
-      gsap.fromTo($$('.w', el), { opacity: 0.14 }, {
-        opacity: 1, ease: 'none', stagger: 0.12,
-        scrollTrigger: { trigger: el, start: 'top 78%', end: 'bottom 45%', scrub: true },
-      });
-    });
-
-    // CTA kinetic title + line
-    const ctaChars = $$('.cta__title .c');
-    if (ctaChars.length) {
-      gsap.from(ctaChars, {
-        yPercent: 115, rotate: 6, duration: 1.1, ease: 'expo.out', stagger: 0.018,
-        onComplete: () => $('.cta__title').classList.add('is-revealed'),
-        scrollTrigger: { trigger: '.cta__title', start: 'top 82%', once: true },
-      });
+    // CTA title + line: simple fade and draw once, when it appears
+    const ctaTitle = $('.cta__title');
+    if (ctaTitle) {
+      ctaTitle.classList.add('is-revealed');
+      gsap.from(ctaTitle, { opacity: 0, y: 14, duration: 0.7, ease: 'power2.out', scrollTrigger: { trigger: ctaTitle, start: 'top 90%', once: true } });
     }
     const ctaPath = $('.cta__line path');
     if (ctaPath) {
       const len = ctaPath.getTotalLength();
       gsap.fromTo(ctaPath, { strokeDasharray: len, strokeDashoffset: len }, {
-        strokeDashoffset: 0, ease: 'none',
-        scrollTrigger: { trigger: '.cta', start: 'top 75%', end: 'center 55%', scrub: 0.8 },
+        strokeDashoffset: 0, duration: 1.2, ease: 'power2.inOut',
+        scrollTrigger: { trigger: '.cta', start: 'top 85%', once: true },
       });
     }
   }
@@ -498,36 +475,10 @@
     const track = $('.pillars__track');
     if (!section || !track) return;
 
-    gsap.fromTo(section, { clipPath: 'inset(5% 3% 0% 3% round 40px)' }, {
-      clipPath: 'inset(0% 0% 0% 0% round 0px)', ease: 'none',
-      scrollTrigger: { trigger: section, start: 'top bottom', end: 'top top', scrub: true },
-    });
-
-    const mm = gsap.matchMedia();
-    mm.add('(min-width: 901px)', () => {
-      const distance = () => Math.max(0, track.scrollWidth - window.innerWidth);
-      const h = gsap.to(track, {
-        x: () => -distance(), ease: 'none',
-        scrollTrigger: {
-          trigger: section, start: 'top top', end: () => '+=' + distance(),
-          pin: true, scrub: 1, invalidateOnRefresh: true, anticipatePin: 1,
-        },
-      });
-      $$('.pillar').forEach((pillar) => {
-        const tw = drawTween($('svg', pillar));
-        if (pillar.offsetLeft + pillar.offsetWidth * 0.3 < window.innerWidth) {
-          // visible before the horizontal scroll starts
-          ScrollTrigger.create({ trigger: section, start: 'top 55%', once: true, onEnter: () => tw && tw.play() });
-        } else {
-          ScrollTrigger.create({ trigger: pillar, containerAnimation: h, start: 'left 80%', once: true, onEnter: () => tw && tw.play() });
-        }
-      });
-    });
-    mm.add('(max-width: 900px)', () => {
-      $$('.pillar').forEach((pillar) => {
-        const tw = drawTween($('svg', pillar));
-        ScrollTrigger.create({ trigger: pillar, start: 'top 80%', once: true, onEnter: () => tw && tw.play() });
-      });
+    // Normal vertical layout (no pinning, no sideways scroll); lines draw once.
+    $$('.pillar').forEach((pillar) => {
+      const tw = drawTween($('svg', pillar));
+      ScrollTrigger.create({ trigger: pillar, start: 'top 90%', once: true, onEnter: () => tw && tw.play() });
     });
   }
 
@@ -542,16 +493,7 @@
     $$('.tl').forEach((item) => {
       ScrollTrigger.create({ trigger: item, start: 'top 66%', onEnter: () => item.classList.add('is-on'), onLeaveBack: () => item.classList.remove('is-on') });
     });
-    $$('[data-photo] picture').forEach((pic) => {
-      gsap.fromTo(pic, { clipPath: 'inset(14% 10% 14% 10% round 18px)' }, {
-        clipPath: 'inset(0% 0% 0% 0% round 18px)', ease: 'none',
-        scrollTrigger: { trigger: pic, start: 'top 95%', end: 'top 40%', scrub: true },
-      });
-      gsap.fromTo($('img', pic), { scale: 1.2 }, {
-        scale: 1, ease: 'none',
-        scrollTrigger: { trigger: pic, start: 'top bottom', end: 'bottom top', scrub: true },
-      });
-    });
+    // photos simply fade in with their item (no zoom, no scroll-linked effect)
   }
 
   /* ---------- Work motifs ---------------------------------------------- */
