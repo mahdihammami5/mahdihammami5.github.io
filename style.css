@@ -755,3 +755,75 @@ section { position: relative; }
 
 .pcard__viz--dark { background: var(--ink); border-color: transparent; }
 .pcard .photo { margin: 0; }
+
+/* ==========================================================================
+   ALWAYS-VISIBLE TAB BAR (overrides earlier nav rules)
+   ========================================================================== */
+.nav {
+  background: rgba(244,241,234,.9);
+  backdrop-filter: blur(14px) saturate(1.2); -webkit-backdrop-filter: blur(14px) saturate(1.2);
+  border-bottom: 1px solid var(--line);
+  padding-top: 14px; padding-bottom: 14px;
+}
+.nav.is-hidden { transform: none; }
+.nav.on-dark { background: rgba(22,33,58,.9); border-bottom-color: rgba(237,233,224,.12); }
+
+.nav__links {
+  display: flex; align-items: center; gap: 4px; margin-left: auto;
+  padding: 4px; border-radius: 999px; background: var(--paper-2);
+}
+.nav.on-dark .nav__links { background: rgba(255,255,255,.06); }
+.nav__links a {
+  opacity: 1; color: var(--ink-2); font-size: 14px; font-weight: 500;
+  padding: 9px 16px; border-radius: 999px; white-space: nowrap;
+  transition: background .3s, color .3s;
+}
+.nav__links a::after { display: none; }
+.nav__links a:hover { color: var(--ink); background: rgba(22,33,58,.06); }
+.nav__links a.is-current { background: var(--ink); color: var(--paper); }
+.nav.on-dark .nav__links a { color: var(--on-ink-2); }
+.nav.on-dark .nav__links a:hover { color: var(--on-ink); background: rgba(255,255,255,.08); }
+.nav.on-dark .nav__links a.is-current { background: var(--on-ink); color: var(--ink); }
+.nav__toggle { display: none !important; }
+
+@media (max-width: 1100px) {
+  .nav__brand-text { display: none; }
+  .nav__links a { padding: 9px 12px; font-size: 13.5px; }
+}
+
+/* Phones & tablets: tabs on their own row, always visible, swipeable */
+@media (max-width: 900px) {
+  .nav { flex-wrap: wrap; row-gap: 10px; padding-top: 10px; padding-bottom: 10px; }
+  .nav__brand-text { display: inline; font-size: 17px; }
+  .nav__mono { width: 36px; height: 36px; font-size: 12px; }
+  .nav__right { margin-left: auto; }
+  .nav__links {
+    order: 3; position: static; inset: auto; z-index: auto; width: 100%;
+    flex-direction: row; justify-content: flex-start; gap: 4px; margin: 0;
+    padding: 4px; clip-path: none; background: var(--paper-2);
+    overflow-x: auto; scrollbar-width: none; -webkit-overflow-scrolling: touch;
+  }
+  .nav__links::-webkit-scrollbar { display: none; }
+  .nav__links a { font-family: var(--f-body); font-size: 13.5px; letter-spacing: 0; line-height: 1; padding: 10px 13px; color: var(--ink-2); flex: none; }
+  .nav__links a.is-current { color: var(--paper); font-style: normal; }
+  .nav.on-dark .nav__links { background: rgba(255,255,255,.06); }
+
+  /* push content below the taller two-row bar */
+  .hero { padding-top: 150px; }
+  .page-hero { padding-top: 160px; }
+}
+@media (max-width: 420px) {
+  .nav__links a { padding: 10px 11px; font-size: 13px; }
+}
+
+/* Phones: all page tabs fit on one row (contact lives in the sticky Email/CV bar) */
+@media (max-width: 900px) {
+  .nav__links { justify-content: space-between; overflow-x: visible; }
+  .nav__links a[href="#contact"] { display: none; }
+}
+@media (max-width: 480px) {
+  .nav__links a { padding: 10px 9px; font-size: 12.5px; }
+}
+@media (max-width: 375px) {
+  .nav__links a { padding: 9px 7px; font-size: 12px; }
+}

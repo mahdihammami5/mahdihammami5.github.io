@@ -566,9 +566,7 @@
     const onScroll = (y) => {
       const max = document.documentElement.scrollHeight - window.innerHeight;
       nav.classList.toggle('is-scrolled', y > 40);
-      if (y > window.innerHeight * 0.9 && y > lastY + 4) nav.classList.add('is-hidden');
-      else if (y < lastY - 4 || y < window.innerHeight * 0.9) nav.classList.remove('is-hidden');
-      lastY = y;
+      lastY = y; // the menu bar always stays visible
       if (bar) bar.style.transform = `scaleX(${max > 0 ? y / max : 0})`;
       if (mbar) {
         const contact = $('#contact');
